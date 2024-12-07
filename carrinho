@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho de Compras</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .product {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .subtotal {
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+      border: 1px solid #333;
+      background: #333;
+      color: white;
+    }
+
+    button.remove {
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Carrinho de Compras</h1>
+
+    <!-- Produtos Disponíveis -->
+    <div class="product">
+      <span>Produto 1 - R$ 50,00</span>
+      <button onclick="addToCart('Produto 1', 50)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="product">
+      <span>Produto 2 - R$ 30,00</span>
+      <button onclick="addToCart('Produto 2', 30)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="product">
+      <span>Produto 3 - R$ 70,00</span>
+      <button onclick="addToCart('Produto 3', 70)">Adicionar ao Carrinho</button>
+    </div>
+
+    <!-- Carrinho -->
+    <div class="cart">
+      <h2>Itens no Carrinho</h2>
+      <div id="cart-items"></div>
+      <div class="subtotal" id="subtotal">Subtotal: R$ 0,00</div>
+    </div>
+  </div>
+
+  <script>
+    const cart = [];
+    const cartItemsContainer = document.getElementById('cart-items');
+    const subtotalContainer = document.getElementById('subtotal');
+
+    // Adiciona um item ao carrinho
+    function addToCart(name, price) {
+      // Verifica se o item já está no carrinho
+      const existingItem = cart.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+      updateCart();
+    }
+
+    // Remove um item do carrinho
+    function removeFromCart(name) {
+      const itemIndex = cart.findIndex(item => item.name === name);
+      if (itemIndex > -1) {
+        cart.splice(itemIndex, 1);
+      }
+      updateCart();
+    }
+
+    // Atualiza a interface do carrinho
+    function updateCart() {
+      cartItemsContainer.innerHTML = '';
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+          <span>${item.name} (R$ ${item.price.toFixed(2)}) x ${item.quantity}</span>
+          <button class="remove" onclick="removeFromCart('${item.name}')">Remover</button>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+      });
+
+      subtotalContainer.textContent = `Subtotal: R$ ${subtotal.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
