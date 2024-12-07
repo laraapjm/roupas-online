@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      margin-top: 5px;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    .payment-options {
+      margin: 10px 0;
+    }
+
+    .payment-options label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .summary {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 4px;
+    }
+
+    .summary h2 {
+      font-size: 18px;
+      margin: 0 0 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Finalização de Compra</h1>
+
+    <!-- Resumo do Pedido -->
+    <div class="summary">
+      <h2>Resumo do Pedido</h2>
+      <p>Itens no carrinho: <span id="cart-items-count">3</span></p>
+      <p>Subtotal: <span id="cart-subtotal">R$ 150,00</span></p>
+    </div>
+
+    <!-- Formulário de Checkout -->
+    <form id="checkout-form">
+      <!-- Dados do Cliente -->
+      <label for="name">Nome Completo</label>
+      <input type="text" id="name" name="name" required placeholder="Digite seu nome">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="Digite seu email">
+
+      <label for="address">Endereço</label>
+      <textarea id="address" name="address" required placeholder="Digite seu endereço"></textarea>
+
+      <label for="phone">Telefone</label>
+      <input type="tel" id="phone" name="phone" required placeholder="Digite seu telefone">
+
+      <!-- Opções de Pagamento -->
+      <label>Forma de Pagamento</label>
+      <div class="payment-options">
+        <label>
+          <input type="radio" name="payment" value="credit-card" required> Cartão de Crédito
+        </label>
+        <label>
+          <input type="radio" name="payment" value="debit-card"> Cartão de Débito
+        </label>
+        <label>
+          <input type="radio" name="payment" value="pix"> Pix
+        </label>
+        <label>
+          <input type="radio" name="payment" value="boleto"> Boleto Bancário
+        </label>
+      </div>
+
+      <!-- Botão de Finalizar Compra -->
+      <button type="submit">Finalizar Compra</button>
+    </form>
+  </div>
+
+  <script>
+    // Dados do exemplo para resumo do pedido
+    const cartItemsCount = 3; // Substituir por dados reais
+    const cartSubtotal = 150.00; // Substituir por dados reais
+
+    document.getElementById('cart-items-count').textContent = cartItemsCount;
+    document.getElementById('cart-subtotal').textContent = `R$ ${cartSubtotal.toFixed(2)}`;
+
+    // Manipula o envio do formulário
+    const checkoutForm = document.getElementById('checkout-form');
+    checkoutForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Captura os dados do formulário
+      const formData = new FormData(checkoutForm);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        address: formData.get('address'),
+        phone: formData.get('phone'),
+        payment: formData.get('payment'),
+      };
+
+      // Exibe os dados (simulação de envio para o backend)
+      alert(`
+        Obrigado pela compra, ${data.name}!
+        Detalhes:
+        - Email: ${data.email}
+        - Endereço: ${data.address}
+        - Telefone: ${data.phone}
+        - Forma de Pagamento: ${data.payment}
+        - Total: R$ ${cartSubtotal.toFixed(2)}
+      `);
+
+      // Aqui você pode enviar os dados para o backend via fetch() ou outro método
+    });
+  </script>
+</body>
+</html>
